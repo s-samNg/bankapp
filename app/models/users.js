@@ -2,8 +2,8 @@
 const mongoose = require('mongoose');
 // Création du schéma pour la collection "users"
 const userSchema = new mongoose.Schema({
-firsname: { type: String, required: true},
-lastname: { type: String, required: true },
+// firsname: { type: String, required: true},
+// lastname: { type: String, required: true },
 email: { type: String, required: true, unique: true,
     validate: {
         validator: function(email) {
@@ -26,3 +26,5 @@ password: { type: String, required: true,
 
 
 const User = mongoose.model(User, userSchema);
+
+module.exports = userSchema;
