@@ -31,6 +31,39 @@ const userSchema = new mongoose.Schema({
 
 userSchema.plugin(uniqueValidator);
 
+userSchema.pre("save", async function (next) {
+  try {
+    if (!this.isModified("email") || !this.email) {
+      return next();
+    }
+    // Encrypter l'email avec votre logique personnalisée
+    this.email = this.email.toLowerCase().trim();
+    const encryptedEmail = await encrypt(this.email);
+    this.email = encryptedEmail;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+userSchema.pre("save", async function (next) {
+  try {
+    if (!this.isModified("password") || !this.password) {
+      return next();
+    }
+
+    // Hasher le mot de passe avec bcrypt
+    const hashedPassword = await bcrypt.hash(this.password, 10);
+    this.password = hashedPassword;
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
+
