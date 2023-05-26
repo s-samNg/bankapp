@@ -1,5 +1,8 @@
-const db = require("./app/models/index.js"); 
-const app = express() 
+const express = require("express");
+
+require("./app/models/index.js"); 
+const app = express(); 
+
 
 
 
